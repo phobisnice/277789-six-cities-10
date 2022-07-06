@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Алексей Гуков](https://up.htmlacademy.ru/react/10/user/277789).
-* Наставник: `Неизвестно`.
+* Наставник: [Иван Чернобук](https://htmlacademy.ru/profile/inchernobuk).
 
 ---
 
