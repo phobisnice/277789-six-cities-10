@@ -9,11 +9,14 @@ type PlacesListProps = {
 
 function PlacesList({places, kind}: PlacesListProps) : JSX.Element {
   const [activeCard, setActiveCard] = useState(0);
-
+  const imageSizes = {
+    width: kind !== 'favorites' ? '260' : '150',
+    height: kind !== 'favorites' ? '200' : '110',
+  };
   return (
     <>
       {
-        places.map((place) => <PlaceCard key={place.id} isActive={activeCard === place.id} onHover={() => setActiveCard(place.id)} info={place} kind={kind} />)
+        places.map((place) => <PlaceCard key={place.id} isActive={activeCard === place.id} imageSizes={imageSizes} onHoverHandle={() => setActiveCard(place.id)} info={place} kind={kind} />)
       }
     </>
   );

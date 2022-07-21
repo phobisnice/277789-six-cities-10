@@ -5,23 +5,27 @@ type PlaceCardsProps = {
   info: Offer;
   kind: string;
   isActive: boolean;
-  onHover: (id: number) => void;
+  onHoverHandle: (id: number) => void;
+  imageSizes: {
+    width: string;
+    height: string;
+  }
 }
 
-function PlaceCard({info, kind, isActive, onHover}: PlaceCardsProps): JSX.Element {
+function PlaceCard({info, kind, imageSizes, isActive, onHoverHandle}: PlaceCardsProps): JSX.Element {
   const ratingInPercent = info.rating ? Math.round(info.rating) * 20 : 0;
   return (
-    <article className={`${kind}__card place-card`} onMouseEnter={() => onHover(info.id)}>
+    <article className={`${kind}__card place-card`} onMouseEnter={() => onHoverHandle(info.id)}>
       {
-        info.isPremium ?
+        info.isPremium && (
           <div className="place-card__mark">
             <span>Premium</span>
-          </div> :
-          null
+          </div>
+        )
       }
       <div className={`${kind}__image-wrapper place-card__image-wrapper`}>
         <Link to={`/offer/${info.id}`}>
-          <img className="place-card__image" src={info.previewImage} width={kind !== 'favorites' ? '260' : '150'} height={kind !== 'favorites' ? '200' : '110'}
+          <img className="place-card__image" src={info.previewImage} width={imageSizes.width} height={imageSizes.height}
             alt={info.title}
           />
         </Link>

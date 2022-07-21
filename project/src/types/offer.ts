@@ -33,7 +33,3 @@ export type Offer = {
 };
 
 export type Offers = Offer[];
-
-export type OffersByCites = {
-  [city: string]: Offers;
-};
