@@ -1,15 +1,16 @@
-import PlaceCard from '../../components/place-card/place-card';
+import {Offers} from '../../types/offer';
+import PlacesList from '../../components/places-list/places-list';
+
+const Setting = {
+  CARDS_TO_SHOW: 5,
+  KIND: 'cities',
+} as const;
 
 type MainProps = {
-  cardsCount: number
+  places: Offers
 }
 
-function Main({cardsCount} : MainProps) :JSX.Element {
-  const placesCards = [];
-  for (let i = 0; i < cardsCount; i++) {
-    placesCards.push(<PlaceCard key={i} kind='cities' />);
-  }
-
+function Main({places} : MainProps) :JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -100,7 +101,7 @@ function Main({cardsCount} : MainProps) :JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {placesCards}
+                <PlacesList places={places.slice(0, Setting.CARDS_TO_SHOW)} kind={Setting.KIND} />
               </div>
             </section>
             <div className="cities__right-section">

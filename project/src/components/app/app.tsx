@@ -6,24 +6,25 @@ import Login from '../../pages/login/login';
 import Room from '../../pages/room/room';
 import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
+import {Offers} from '../../types/offer';
 
 type AppProps = {
-  cardsCount: number
+  places: Offers;
 }
 
-function App({cardsCount} : AppProps) : JSX.Element {
+function App({places} : AppProps) : JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Root}
-          element={<Main cardsCount={cardsCount} />}
+          element={<Main places={places} />}
         />
         <Route
           path={AppRoute.Favorites}
           element={
             <PrivateRoute authorizationStatus={AuthorizationStatus.Auth} >
-              <Favorites />
+              <Favorites places={places} />
             </PrivateRoute>
           }
         />
@@ -37,7 +38,7 @@ function App({cardsCount} : AppProps) : JSX.Element {
         />
         <Route
           path={AppRoute.Room}
-          element={<Room />}
+          element={<Room places={places} />}
         />
         <Route
           path='*'
