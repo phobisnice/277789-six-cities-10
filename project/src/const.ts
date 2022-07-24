@@ -15,5 +15,31 @@ export enum OfferKind {
   Apartment = 'Apartment',
   Room = 'Private Room',
   House = 'House',
-  Hotel = 'Hotel'
+  Hotel = 'Hotel',
 }
+
+export enum PreviewSize {
+  NormalItemWidth = '260',
+  NormalItemHeight = '200',
+  FavoriteItemWidth = '150',
+  FavoriteItemHeight = '110',
+}
+
+export enum MapPin {
+  InactiveImage = '/img/pin.svg',
+  ActiveImage = '/img/pin-acitve.svg',
+}
+
+export const DEFAULT_CITY = {
+  location: {
+    latitude: 52.3909553943508,
+    longitude: 4.85309666406198,
+    zoom: 9,
+  },
+  name: 'Amsterdam',
+};
+
+export const MAP_PIN_SIZE = {
+  iconSize: [27, 39],
+  iconAnchor: [13, 39],
+};

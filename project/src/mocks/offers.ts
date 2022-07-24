@@ -5,11 +5,11 @@ export const offers: Offers = [
     bedrooms: 2,
     city: {
       location: {
-        latitude: 40,
-        longitude: 60,
+        latitude: 52.3909553943508,
+        longitude: 4.85309666406198,
         zoom: 9,
       },
-      name: 'Paris',
+      name: 'Amsterdam',
     },
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.\n\n An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
     goods: ['Wi-Fi', 'Heating', 'Kitchen', 'Fridge', 'Washing machine', 'Coffee machine', 'Dishwasher', 'Towels', 'Baby seat', 'Cabel TV'],
@@ -24,8 +24,8 @@ export const offers: Offers = [
     isFavorite: true,
     isPremium: true,
     location: {
-      latitude: 40.4,
-      longitude: 60.4,
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
       zoom: 10,
     },
     maxAdults: 4,
@@ -39,11 +39,11 @@ export const offers: Offers = [
     bedrooms: 3,
     city: {
       location: {
-        latitude: 40,
-        longitude: 60,
+        latitude: 52.3909553943508,
+        longitude: 4.85309666406198,
         zoom: 9,
       },
-      name: 'Paris',
+      name: 'Amsterdam',
     },
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.\n\n An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
     goods: ['Wi-Fi', 'Heating', 'Coffee machine', 'Dishwasher', 'Towels', 'Baby seat', 'Cabel TV'],
@@ -58,8 +58,8 @@ export const offers: Offers = [
     isFavorite: false,
     isPremium: false,
     location: {
-      latitude: 40.6,
-      longitude: 60.7,
+      latitude: 52.369553943508,
+      longitude: 4.85309666406198,
       zoom: 10,
     },
     maxAdults: 3,
@@ -73,11 +73,11 @@ export const offers: Offers = [
     bedrooms: 2,
     city: {
       location: {
-        latitude: 40,
-        longitude: 60,
+        latitude: 52.3909553943508,
+        longitude: 4.85309666406198,
         zoom: 9,
       },
-      name: 'Paris',
+      name: 'Amsterdam',
     },
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.\n\n An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
     goods: ['Coffee machine', 'Dishwasher', 'Towels', 'Baby seat', 'Cabel TV'],
@@ -92,8 +92,8 @@ export const offers: Offers = [
     isFavorite: false,
     isPremium: true,
     location: {
-      latitude: 40.1,
-      longitude: 60.4,
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
       zoom: 10,
     },
     maxAdults: 1,
@@ -107,11 +107,11 @@ export const offers: Offers = [
     bedrooms: 2,
     city: {
       location: {
-        latitude: 40,
-        longitude: 60,
+        latitude: 52.3909553943508,
+        longitude: 4.85309666406198,
         zoom: 9,
       },
-      name: 'Paris',
+      name: 'Amsterdam',
     },
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.\n\n An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
     goods: ['Wi-Fi', 'Heating', 'Kitchen', 'Fridge', 'Washing machine', 'Coffee machine', 'Dishwasher', 'Towels', 'Baby seat', 'Cabel TV'],
@@ -126,8 +126,8 @@ export const offers: Offers = [
     isFavorite: false,
     isPremium: true,
     location: {
-      latitude: 40.4,
-      longitude: 61,
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
       zoom: 10,
     },
     maxAdults: 4,

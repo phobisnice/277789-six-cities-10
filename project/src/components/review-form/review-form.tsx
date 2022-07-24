@@ -1,4 +1,4 @@
-import {ChangeEvent, FormEvent, useState} from 'react';
+import {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 
 function ReviewForm(): JSX.Element {
   const [formData, setFormData] = useState({
@@ -8,13 +8,13 @@ function ReviewForm(): JSX.Element {
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
+  useEffect(() => {
+    setIsButtonDisabled(!(formData.review.length >= 50 && formData.rating));
+  }, [formData]);
+
   const reviewChangeHandle = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = evt.target;
-    setFormData((prevFormData) => {
-      const newFormData = {...formData, [name]: value};
-      setIsButtonDisabled(!(newFormData.review.length >= 50 && newFormData.rating));
-      return newFormData;
-    });
+    setFormData({...formData, [name]: value});
   };
 
   const reviewSubmitHandle = (evt: FormEvent) => {

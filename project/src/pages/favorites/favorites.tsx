@@ -1,25 +1,31 @@
-import {Offers} from '../../types/offer';
+import {Offers, OffersByCity} from '../../types/offer';
 import FavoriteItem from '../../components/favorite-item/favorite-item';
 
 type FavoritesProps = {
   places: Offers
 }
 
-const getCitiesFromPlaces = (places: Offers) => {
-  const cities: string[] = [];
+const getPlacesByCity = (places: Offers): OffersByCity[] => {
+  const placesByCity: OffersByCity[] = [];
+
   places.forEach((place) => {
-    if (!cities.includes(place.city.name)) {
-      cities.push(place.city.name);
+    const placeCity = placesByCity.filter((item) => item.name === place.city.name);
+
+    if (placeCity.length) {
+      placeCity[0].offers.push(place);
+    } else {
+      placesByCity.push({
+        name: place.city.name,
+        offers: [place]
+      } as OffersByCity);
     }
   });
 
-  return cities;
+  return placesByCity;
 };
 
-const filterPlacesByCity = (places: Offers, city: string): Offers => places.filter((place) => place.city.name === city);
-
 function Favorites({places}: FavoritesProps): JSX.Element {
-  const cities = getCitiesFromPlaces(places);
+  const cities = getPlacesByCity(places);
 
   return (
     <div className="page">
@@ -60,7 +66,7 @@ function Favorites({places}: FavoritesProps): JSX.Element {
                 <h1 className="favorites__title">Saved listing</h1>
                 <ul className="favorites__list">
                   {
-                    cities.map((city) => <FavoriteItem places={filterPlacesByCity(places, city)} city={city} key={city} />)
+                    cities.map((city) => <FavoriteItem places={city.offers} city={city.name} key={city.name} />)
                   }
                 </ul>
               </section>
