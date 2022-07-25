@@ -33,3 +33,8 @@ export type Offer = {
 };
 
 export type Offers = Offer[];
+
+export type OffersByCity = {
+  name: 'string';
+  offers: Offers
+}

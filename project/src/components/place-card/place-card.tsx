@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 type PlaceCardsProps = {
   info: Offer;
-  kind: string;
+  kind: 'favorites' | 'near-places' | 'cities';
   isActive: boolean;
   onHoverHandle: (id: number) => void;
   imageSizes: {

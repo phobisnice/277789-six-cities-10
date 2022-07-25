@@ -1,5 +1,7 @@
-import {Offers} from '../../types/offer';
+import {Offers, City} from '../../types/offer';
 import PlacesList from '../../components/places-list/places-list';
+import Map from '../../components/map/map';
+import {DEFAULT_CITY} from '../../const';
 
 const Setting = {
   CARDS_TO_SHOW: 5,
@@ -11,6 +13,8 @@ type MainProps = {
 }
 
 function Main({places} : MainProps) :JSX.Element {
+  const currentCity: City = places.length ? places[0].city : DEFAULT_CITY;
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -105,7 +109,7 @@ function Main({places} : MainProps) :JSX.Element {
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map city={currentCity} points={places} />
             </div>
           </div>
         </div>
