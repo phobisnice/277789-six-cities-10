@@ -1,4 +1,4 @@
-import {useEffect, useRef} from 'react';
+import {CSSProperties, useEffect, useRef} from 'react';
 import {Icon, Marker} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {City, Offers} from '../../types/offer';
@@ -8,7 +8,9 @@ import {MapPin, MAP_PIN_SIZE} from '../../const';
 
 type MapProps = {
   city: City;
-  points: Offers
+  points: Offers;
+  className: string;
+  style?: CSSProperties;
 }
 
 const defaultCustomIcon = new Icon({
@@ -17,7 +19,7 @@ const defaultCustomIcon = new Icon({
   iconAnchor: MAP_PIN_SIZE.iconAnchor as LeafletSize,
 });
 
-function Map({city, points}: MapProps): JSX.Element {
+function Map({city, points, className, style}: MapProps): JSX.Element {
   const mapRef = useRef<HTMLElement | null>(null);
   const map = useMap(mapRef, city);
 
@@ -36,7 +38,7 @@ function Map({city, points}: MapProps): JSX.Element {
   }, [map, points]);
 
   return (
-    <section className="cities__map map" ref={mapRef} >
+    <section className={`${className} map`} ref={mapRef} style={style}>
     </section>
   );
 }

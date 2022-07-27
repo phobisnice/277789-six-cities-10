@@ -1,5 +1,6 @@
 import {Offer} from '../../types/offer';
 import {Link} from 'react-router-dom';
+import {getPercentFromRating} from '../../helpers';
 
 type PlaceCardsProps = {
   info: Offer;
@@ -13,7 +14,7 @@ type PlaceCardsProps = {
 }
 
 function PlaceCard({info, kind, imageSizes, isActive, onHoverHandle}: PlaceCardsProps): JSX.Element {
-  const ratingInPercent = info.rating ? Math.round(info.rating) * 20 : 0;
+  const ratingInPercent = getPercentFromRating(info.rating);
   return (
     <article className={`${kind}__card place-card`} onMouseEnter={() => onHoverHandle(info.id)}>
       {
@@ -45,7 +46,7 @@ function PlaceCard({info, kind, imageSizes, isActive, onHoverHandle}: PlaceCards
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${ratingInPercent.toString()}%`}}></span>
+            <span style={{width: `${ratingInPercent}`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
