@@ -7,12 +7,14 @@ import Room from '../../pages/room/room';
 import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import {Offers} from '../../types/offer';
+import {Reviews} from '../../types/review';
 
 type AppProps = {
   places: Offers;
+  reviews: Reviews
 }
 
-function App({places} : AppProps) : JSX.Element {
+function App({places, reviews} : AppProps) : JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
@@ -38,7 +40,7 @@ function App({places} : AppProps) : JSX.Element {
         />
         <Route
           path={AppRoute.Room}
-          element={<Room places={places} />}
+          element={<Room places={places} reviews={reviews} />}
         />
         <Route
           path='*'

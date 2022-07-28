@@ -43,3 +43,10 @@ export const MAP_PIN_SIZE = {
   iconSize: [27, 39],
   iconAnchor: [13, 39],
 };
+
+export const RATING_STAR_PERCENT = 20;
+
+export const NEAR_PLACE_SETTINGS = {
+  CARDS_TO_SHOW: 3,
+  KIND: 'near-places',
+} as const;

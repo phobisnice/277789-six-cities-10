@@ -109,7 +109,7 @@ function Main({places} : MainProps) :JSX.Element {
               </div>
             </section>
             <div className="cities__right-section">
-              <Map city={currentCity} points={places} />
+              <Map city={currentCity} points={places} className={'cities__map'} />
             </div>
           </div>
         </div>
