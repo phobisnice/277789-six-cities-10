@@ -16,7 +16,7 @@ type PlaceCardsProps = {
 function PlaceCard({info, kind, imageSizes, isActive, onHoverHandle}: PlaceCardsProps): JSX.Element {
   const ratingInPercent = getPercentFromRating(info.rating);
   return (
-    <article className={`${kind}__card place-card`} onMouseEnter={() => onHoverHandle(info.id)}>
+    <article className={`${kind}__card place-card`} onMouseEnter={() => onHoverHandle(info.id)} onMouseLeave={() => onHoverHandle(0)}>
       {
         info.isPremium && (
           <div className="place-card__mark">

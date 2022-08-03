@@ -20,7 +20,7 @@ function App({places, reviews} : AppProps) : JSX.Element {
       <Routes>
         <Route
           path={AppRoute.Root}
-          element={<Main places={places} />}
+          element={<Main />}
         />
         <Route
           path={AppRoute.Favorites}
