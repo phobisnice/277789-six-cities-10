@@ -4,15 +4,18 @@ import Map from '../../components/map/map';
 import {City, Offers} from '../../types/offer';
 import {Reviews} from '../../types/review';
 import {DEFAULT_CITY, NEAR_PLACE_SETTINGS} from '../../const';
+import {getCityByName} from '../../helpers';
 
 type RoomProps = {
   places: Offers;
   reviews: Reviews
 }
 
+const defaultCity = getCityByName(DEFAULT_CITY);
+
 function Room({places, reviews}: RoomProps): JSX.Element {
   const nearPlaces = places.slice(0, NEAR_PLACE_SETTINGS.CARDS_TO_SHOW);
-  const currentCity: City = nearPlaces.length ? nearPlaces[0].city : DEFAULT_CITY;
+  const currentCity: City = nearPlaces.length ? nearPlaces[0].city : defaultCity;
 
   return (
     <div className="page">

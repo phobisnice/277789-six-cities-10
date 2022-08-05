@@ -11,6 +11,7 @@ type MapProps = {
   points: Offers;
   className: string;
   style?: CSSProperties;
+  activePlaceId?: number
 }
 
 const defaultCustomIcon = new Icon({
@@ -19,7 +20,13 @@ const defaultCustomIcon = new Icon({
   iconAnchor: MAP_PIN_SIZE.iconAnchor as LeafletSize,
 });
 
-function Map({city, points, className, style}: MapProps): JSX.Element {
+const activeCustomIcon = new Icon({
+  iconUrl: MapPin.ActiveImage,
+  iconSize: MAP_PIN_SIZE.iconSize as LeafletSize,
+  iconAnchor: MAP_PIN_SIZE.iconAnchor as LeafletSize,
+});
+
+function Map({city, points, className, style, activePlaceId}: MapProps): JSX.Element {
   const mapRef = useRef<HTMLElement | null>(null);
   const map = useMap(mapRef, city);
 
@@ -32,10 +39,11 @@ function Map({city, points, className, style}: MapProps): JSX.Element {
           lng: longitude,
         });
 
-        marker.setIcon(defaultCustomIcon).addTo(map);
+        const icon = activePlaceId === point.id ? activeCustomIcon : defaultCustomIcon;
+        marker.setIcon(icon).addTo(map);
       });
     }
-  }, [map, points]);
+  }, [map, points, activePlaceId]);
 
   return (
     <section className={`${className} map`} ref={mapRef} style={style}>
