@@ -19,7 +19,7 @@ function PlacesList({places, kind}: PlacesListProps) : JSX.Element {
   };
 
   function onPlaceHoverHandle(id: number) {
-    dispatch(setActivePlace({activePlaceId: id}));
+    dispatch(setActivePlace(id));
   }
 
   return (

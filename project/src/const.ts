@@ -98,3 +98,12 @@ export const CITIES = [
 export const SORT_TYPES = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'] as const;
 
 export const DEFAULT_SORT_TYPE = 'Popular';
+
+export enum APIRoute {
+  Hotels = '/hotels',
+  Nearby = '/nearby',
+  Favorite = '/favorite',
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout',
+}

@@ -1,5 +1,5 @@
 import {CSSProperties, useEffect, useRef} from 'react';
-import {Icon, Marker} from 'leaflet';
+import {Icon, Layer, Marker, Map as LeafletMap} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {City, Offers} from '../../types/offer';
 import {LeafletSize} from '../../types/leaflet';
@@ -26,12 +26,30 @@ const activeCustomIcon = new Icon({
   iconAnchor: MAP_PIN_SIZE.iconAnchor as LeafletSize,
 });
 
+function clearMap(map: LeafletMap, city: City) {
+  map.eachLayer((layer: Layer) => {
+    if (layer instanceof Marker) {
+      map.removeLayer(layer);
+    }
+  });
+
+  const {location: {
+    latitude: cityLatitude,
+    longitude: cityLongitude,
+    zoom
+  }} = city;
+
+  map.setView([cityLatitude, cityLongitude], zoom);
+}
+
 function Map({city, points, className, style, activePlaceId}: MapProps): JSX.Element {
   const mapRef = useRef<HTMLElement | null>(null);
   const map = useMap(mapRef, city);
 
   useEffect(() => {
     if (map) {
+      clearMap(map, city);
+
       points.forEach((point) => {
         const {latitude, longitude} = point.location;
         const marker = new Marker({
@@ -43,7 +61,7 @@ function Map({city, points, className, style, activePlaceId}: MapProps): JSX.Ele
         marker.setIcon(icon).addTo(map);
       });
     }
-  }, [map, points, activePlaceId]);
+  }, [map, city, points, activePlaceId]);
 
   return (
     <section className={`${className} map`} ref={mapRef} style={style}>

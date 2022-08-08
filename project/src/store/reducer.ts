@@ -1,7 +1,13 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCity, changeCurrentOffers, loadOffers, changeSortType, setActivePlace} from './action';
+import {
+  changeCity,
+  changeCurrentOffers,
+  loadOffers,
+  changeSortType,
+  setActivePlace,
+  setDataLoadingStatus
+} from './action';
 import {DEFAULT_CITY, SORT_TYPES, DEFAULT_SORT_TYPE} from '../const';
-import {offers} from '../mocks/offers';
 import {getCityByName, sortPlacesByType} from '../helpers';
 import {City, Offers} from '../types/offer';
 
@@ -12,7 +18,8 @@ type InitialState = {
   places: Offers;
   placesByCity: Offers;
   sortType: typeof SORT_TYPES[number];
-  activePlaceId: number
+  activePlaceId: number;
+  isDataLoading: boolean;
 }
 
 const initialState: InitialState = {
@@ -20,17 +27,18 @@ const initialState: InitialState = {
   places: [],
   placesByCity: [],
   sortType: DEFAULT_SORT_TYPE,
-  activePlaceId: 0
+  activePlaceId: 0,
+  isDataLoading: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(loadOffers, (state) => {
-      state.places = offers;
-      state.placesByCity = offers.filter((place) => place.city.name === state.city.name);
+    .addCase(loadOffers, (state, action) => {
+      state.places = action.payload;
+      state.placesByCity = action.payload.filter((place) => place.city.name === state.city.name);
     })
     .addCase(changeCity, (state, action) => {
-      const {city} = action.payload;
+      const city = action.payload;
       state.city = getCityByName(city);
     })
     .addCase(changeCurrentOffers, (state) => {
@@ -38,10 +46,13 @@ const reducer = createReducer(initialState, (builder) => {
       state.placesByCity = sortPlacesByType(filteredByCityPlaces, state.sortType);
     })
     .addCase(changeSortType, (state, action) => {
-      state.sortType = action.payload.sortType;
+      state.sortType = action.payload;
     })
     .addCase(setActivePlace, (state, action) => {
-      state.activePlaceId = action.payload.activePlaceId;
+      state.activePlaceId = action.payload;
+    })
+    .addCase(setDataLoadingStatus, (state, action) => {
+      state.isDataLoading = action.payload;
     });
 });
 
