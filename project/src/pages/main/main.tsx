@@ -4,7 +4,8 @@ import CitiesList from '../../components/cities-list/cities-list';
 import EmptyPlacesList from '../../components/empty-places-list/empty-places-list';
 import {useAppSelector} from '../../hooks/useAppSelector';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
-import {changeCity, changeCurrentOffers, changeSortType, loadOffers} from '../../store/action';
+import {changeCity, changeCurrentOffers, changeSortType} from '../../store/action';
+import {fetchOffers} from '../../store/api-actions';
 import {CITIES, SORT_TYPES} from '../../const';
 import {useEffect} from 'react';
 import PlacesSort from '../../components/places-sort/places-sort';
@@ -18,16 +19,16 @@ function Main() :JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(loadOffers());
+    dispatch(fetchOffers());
   }, [dispatch]);
 
   const onCityClickHandle = (city: typeof CITIES[number]['name']) => {
-    dispatch(changeCity({city: city}));
+    dispatch(changeCity(city));
     dispatch(changeCurrentOffers());
   };
 
   const onSortClickHandle = (sortType: typeof SORT_TYPES[number]) => {
-    dispatch(changeSortType({sortType: sortType}));
+    dispatch(changeSortType(sortType));
     dispatch(changeCurrentOffers());
   };
 

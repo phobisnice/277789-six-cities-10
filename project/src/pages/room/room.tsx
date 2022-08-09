@@ -1,19 +1,30 @@
 import PlacesList from '../../components/places-list/places-list';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import Map from '../../components/map/map';
-import {City, Offers} from '../../types/offer';
+import {City} from '../../types/offer';
 import {Reviews} from '../../types/review';
 import {DEFAULT_CITY, NEAR_PLACE_SETTINGS} from '../../const';
 import {getCityByName} from '../../helpers';
+import {useAppDispatch} from '../../hooks/useAppDispatch';
+import {useEffect} from 'react';
+import {fetchOffers} from '../../store/api-actions';
+import {useAppSelector} from '../../hooks/useAppSelector';
 
 type RoomProps = {
-  places: Offers;
   reviews: Reviews
 }
 
 const defaultCity = getCityByName(DEFAULT_CITY);
 
-function Room({places, reviews}: RoomProps): JSX.Element {
+function Room({reviews}: RoomProps): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchOffers());
+  }, [dispatch]);
+
+  const {places} = useAppSelector((state) => state);
+
   const nearPlaces = places.slice(0, NEAR_PLACE_SETTINGS.CARDS_TO_SHOW);
   const currentCity: City = nearPlaces.length ? nearPlaces[0].city : defaultCity;
 

@@ -1,0 +1,38 @@
+.loader {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader__spinner {
+  display: inline-block;
+  width: 3rem;
+  height: 3rem;
+  color: inherit;
+  vertical-align: middle;
+  pointer-events: none;
+  border: .2em solid currentcolor;
+  border-radius: 50%;
+  animation: loading 1s ease-out infinite;
+}
+
+@keyframes loading {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}

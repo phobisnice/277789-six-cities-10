@@ -1,9 +1,9 @@
 import {Offers, OffersByCity} from '../../types/offer';
 import FavoriteItem from '../../components/favorite-item/favorite-item';
-
-type FavoritesProps = {
-  places: Offers
-}
+import {useAppDispatch} from '../../hooks/useAppDispatch';
+import {useEffect} from 'react';
+import {fetchOffers} from '../../store/api-actions';
+import {useAppSelector} from '../../hooks/useAppSelector';
 
 const getPlacesByCity = (places: Offers): OffersByCity[] => {
   const placesByCity: OffersByCity[] = [];
@@ -24,7 +24,15 @@ const getPlacesByCity = (places: Offers): OffersByCity[] => {
   return placesByCity;
 };
 
-function Favorites({places}: FavoritesProps): JSX.Element {
+function Favorites(): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchOffers());
+  }, [dispatch]);
+
+  const {places} = useAppSelector((state) => state);
+
   const cities = getPlacesByCity(places);
 
   return (
