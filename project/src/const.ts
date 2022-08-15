@@ -107,3 +107,12 @@ export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
 }
+
+export enum ValidateError {
+  Email = 'invalid email',
+  Password = 'The login must consist of at least one letter and a number',
+}
+
+export const EMAIL_REGEXP = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+
+export const PASSWORD_REGEXP = new RegExp(/([0-9].*[a-z])|([a-z].*[0-9])/);

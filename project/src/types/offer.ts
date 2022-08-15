@@ -1,4 +1,4 @@
-import {User} from './user';
+import {Host} from './user';
 
 export type Location = {
   latitude: number;
@@ -18,7 +18,7 @@ export type Offer = {
   city: City;
   description: string;
   goods: string[];
-  host: User;
+  host: Host;
   id: number;
   images: string[];
   isFavorite: boolean;
