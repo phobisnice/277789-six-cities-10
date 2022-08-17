@@ -2,14 +2,16 @@ import {createReducer} from '@reduxjs/toolkit';
 import {
   changeCity,
   changeCurrentOffers,
-  loadOffers,
-  changeSortType,
-  setActivePlace,
-  setDataLoadingStatus
+  changeSortType, getOffer, loadComments, loadNearOffers,
+  loadOffers, loadWishlistItems,
+  setActivePlace, setAuthorizationStatus,
+  setDataLoadingStatus, setUserInfo
 } from './action';
-import {DEFAULT_CITY, SORT_TYPES, DEFAULT_SORT_TYPE} from '../const';
+import {AuthorizationStatus, DEFAULT_CITY, DEFAULT_SORT_TYPE, SORT_TYPES} from '../const';
 import {getCityByName, sortPlacesByType} from '../helpers';
-import {City, Offers} from '../types/offer';
+import {City, Offer, Offers} from '../types/offer';
+import {User} from '../types/user';
+import {Reviews} from '../types/review';
 
 const defaultCity = getCityByName(DEFAULT_CITY);
 
@@ -20,6 +22,12 @@ type InitialState = {
   sortType: typeof SORT_TYPES[number];
   activePlaceId: number;
   isDataLoading: boolean;
+  authorizationStatus: AuthorizationStatus;
+  user: User | null;
+  wishlist: Offers;
+  offer: Offer | null;
+  comments: Reviews;
+  nearOffers: Offers;
 }
 
 const initialState: InitialState = {
@@ -29,6 +37,12 @@ const initialState: InitialState = {
   sortType: DEFAULT_SORT_TYPE,
   activePlaceId: 0,
   isDataLoading: false,
+  authorizationStatus: AuthorizationStatus.Unknown,
+  user: null,
+  wishlist: [],
+  offer: null,
+  comments: [],
+  nearOffers: [],
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -53,6 +67,24 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setDataLoadingStatus, (state, action) => {
       state.isDataLoading = action.payload;
+    })
+    .addCase(setAuthorizationStatus, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setUserInfo, (state, action) => {
+      state.user = action.payload;
+    })
+    .addCase(getOffer, (state, action) => {
+      state.offer = action.payload;
+    })
+    .addCase(loadComments, (state, action) => {
+      state.comments = action.payload;
+    })
+    .addCase(loadNearOffers, (state, action) => {
+      state.nearOffers = action.payload;
+    })
+    .addCase(loadWishlistItems, (state, action) => {
+      state.wishlist = action.payload;
     });
 });
 
