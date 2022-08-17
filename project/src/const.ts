@@ -3,6 +3,7 @@ export enum AppRoute {
   Login = '/login',
   Favorites = '/favorites',
   Room = '/offer/:id',
+  NotFound = '/not-found'
 }
 
 export enum AuthorizationStatus {
@@ -38,6 +39,10 @@ export const MAP_PIN_SIZE = {
 };
 
 export const RATING_STAR_PERCENT = 20;
+
+export const MAX_ROOM_IMAGES_COUNT = 6;
+
+export const MAX_REVIEWS_COUNT = 10;
 
 export const NEAR_PLACE_SETTINGS = {
   CARDS_TO_SHOW: 3,
@@ -116,3 +121,11 @@ export enum ValidateError {
 export const EMAIL_REGEXP = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
 export const PASSWORD_REGEXP = new RegExp(/([0-9].*[a-z])|([a-z].*[0-9])/);
+
+export const RATING_NAMES = [
+  'perfect',
+  'good',
+  'not bad',
+  'badly',
+  'terribly'
+];

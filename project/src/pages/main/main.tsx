@@ -5,7 +5,7 @@ import EmptyPlacesList from '../../components/empty-places-list/empty-places-lis
 import {useAppSelector} from '../../hooks/useAppSelector';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {changeCity, changeCurrentOffers, changeSortType} from '../../store/action';
-import {fetchOffers} from '../../store/api-actions';
+import {fetchOffersAction} from '../../store/api-actions';
 import {CITIES, SORT_TYPES} from '../../const';
 import {useEffect} from 'react';
 import PlacesSort from '../../components/places-sort/places-sort';
@@ -20,7 +20,7 @@ function Main() :JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchOffers());
+    dispatch(fetchOffersAction());
   }, [dispatch]);
 
   const onCityClickHandle = (city: typeof CITIES[number]['name']) => {

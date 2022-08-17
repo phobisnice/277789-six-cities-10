@@ -34,4 +34,6 @@ export const checkValueByRegexp = (value: string, regexp: RegExp, messageError: 
   return isValid;
 };
 
-export const checkAuthStatus = (authorizationStatus: AuthorizationStatus): boolean => authorizationStatus === AuthorizationStatus.Unknown;
+export const checkLoadingAuthStatus = (authorizationStatus: AuthorizationStatus): boolean => authorizationStatus === AuthorizationStatus.Unknown;
+
+export const checkAuthStatus = (authorizationStatus: AuthorizationStatus): boolean => authorizationStatus === AuthorizationStatus.Auth;

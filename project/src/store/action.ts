@@ -1,7 +1,8 @@
 import {createAction} from '@reduxjs/toolkit';
 import {CITIES, SORT_TYPES, AuthorizationStatus, AppRoute} from '../const';
-import {Offers} from '../types/offer';
+import {Offer, Offers} from '../types/offer';
 import {User} from '../types/user';
+import {Reviews} from '../types/review';
 
 export const changeCity = createAction<typeof CITIES[number]['name']>('offers/changeCity');
 
@@ -11,7 +12,15 @@ export const changeSortType = createAction<typeof SORT_TYPES[number]>('offers/ch
 
 export const setActivePlace = createAction<number>('offers/setActivePlace');
 
+export const loadWishlistItems = createAction<Offers>('data/loadWishlistItems');
+
 export const loadOffers = createAction<Offers>('data/loadOffers');
+
+export const loadComments = createAction<Reviews>('data/loadComments');
+
+export const loadNearOffers = createAction<Offers>('data/loadNearOffers');
+
+export const getOffer = createAction<Offer>('data/getOffer');
 
 export const setDataLoadingStatus = createAction<boolean>('data/setDataLoadingStatus');
 

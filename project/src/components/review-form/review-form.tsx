@@ -1,6 +1,18 @@
-import {ChangeEvent, FormEvent, useEffect, useState} from 'react';
+import {ChangeEvent, FormEvent, useEffect, useRef, useState} from 'react';
+import {api} from '../../store';
+import {APIRoute, RATING_NAMES} from '../../const';
+import {loadComments} from '../../store/action';
+import {useAppDispatch} from '../../hooks/useAppDispatch';
+import RatingItem from '../rating-item/rating-item';
 
-function ReviewForm(): JSX.Element {
+type ReviewFormProps = {
+  hotelId: string | undefined
+}
+
+function ReviewForm({hotelId}: ReviewFormProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const formRef = useRef<HTMLFormElement | null>(null);
+
   const [formData, setFormData] = useState({
     rating: '',
     review: '',
@@ -19,57 +31,31 @@ function ReviewForm(): JSX.Element {
 
   const reviewSubmitHandle = (evt: FormEvent) => {
     evt.preventDefault();
+
+    setIsButtonDisabled(true);
+    const reviewSubmitUrl = `${APIRoute.Comments}/${hotelId}`;
+    api.post(reviewSubmitUrl, {
+      comment: formData.review,
+      rating: formData.rating
+    })
+      .then((response) => {
+        dispatch(loadComments(response.data));
+        setFormData({...formData, rating: '', review: ''});
+        formRef.current?.reset();
+      })
+      .catch(() => {
+        setIsButtonDisabled(false);
+      });
   };
+
   return (
-    <form className="reviews__form form" action="/" method="post" onSubmit={reviewSubmitHandle}>
+    <form className="reviews__form form" action="/" method="post" ref={formRef} onSubmit={reviewSubmitHandle}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        <input className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars"
-          type="radio" onChange={reviewChangeHandle}
-        />
-        <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars"
-          type="radio" onChange={reviewChangeHandle}
-        />
-        <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars"
-          type="radio" onChange={reviewChangeHandle}
-        />
-        <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars"
-          type="radio" onChange={reviewChangeHandle}
-        />
-        <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input className="form__rating-input visually-hidden" name="rating" value="1" id="1-star"
-          type="radio" onChange={reviewChangeHandle}
-        />
-        <label htmlFor="1-star" className="reviews__rating-label form__rating-label"
-          title="terribly"
-        >
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
+        {RATING_NAMES.map((name) => {
+          const ratingValue = Math.abs(RATING_NAMES.indexOf(name) - RATING_NAMES.length);
+          return <RatingItem value={ratingValue} title={name} ratingChangeHandle={reviewChangeHandle} key={`form-rating-${ratingValue}`} />;
+        })}
       </div>
       <textarea className="reviews__textarea form__textarea" id="review" name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"

@@ -7,20 +7,15 @@ import Room from '../../pages/room/room';
 import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import Loader from '../loader/loader';
-import {Reviews} from '../../types/review';
 import {useAppSelector} from '../../hooks/useAppSelector';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
-import {checkAuthStatus} from '../../helpers';
+import {checkLoadingAuthStatus} from '../../helpers';
 
-type AppProps = {
-  reviews: Reviews
-}
-
-function App({reviews} : AppProps) : JSX.Element {
+function App() : JSX.Element {
   const {authorizationStatus, isDataLoading} = useAppSelector((state) => state);
 
-  if (checkAuthStatus(authorizationStatus) || isDataLoading) {
+  if (checkLoadingAuthStatus(authorizationStatus) || isDataLoading) {
     return <Loader />;
   }
 
@@ -49,7 +44,7 @@ function App({reviews} : AppProps) : JSX.Element {
         />
         <Route
           path={AppRoute.Room}
-          element={<Room reviews={reviews} />}
+          element={<Room />}
         />
         <Route
           path='*'

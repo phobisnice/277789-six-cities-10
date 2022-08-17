@@ -2,7 +2,7 @@ import {Offers, OffersByCity} from '../../types/offer';
 import FavoriteItem from '../../components/favorite-item/favorite-item';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {useEffect} from 'react';
-import {fetchOffers} from '../../store/api-actions';
+import {getWishlistItems} from '../../store/api-actions';
 import {useAppSelector} from '../../hooks/useAppSelector';
 import Header from '../../components/header/header';
 
@@ -29,19 +29,19 @@ function Favorites(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchOffers());
+    dispatch(getWishlistItems());
   }, [dispatch]);
 
-  const {places} = useAppSelector((state) => state);
+  const {wishlist} = useAppSelector((state) => state);
 
-  const cities = getPlacesByCity(places);
+  const cities = getPlacesByCity(wishlist);
 
   return (
     <div className="page">
       <Header />
 
       {
-        places.length ?
+        wishlist.length ?
           <main className="page__main page__main--favorites">
             <div className="page__favorites-container container">
               <section className="favorites">
