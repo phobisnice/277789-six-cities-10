@@ -1,3 +1,5 @@
+import {memo} from 'react';
+
 function EmptyPlacesList(): JSX.Element {
   return (
     <div className="cities">
@@ -16,4 +18,4 @@ function EmptyPlacesList(): JSX.Element {
   );
 }
 
-export default EmptyPlacesList;
+export default memo(EmptyPlacesList);

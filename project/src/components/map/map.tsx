@@ -36,10 +36,9 @@ function clearMap(map: LeafletMap, city: City) {
   const {location: {
     latitude: cityLatitude,
     longitude: cityLongitude,
-    zoom
   }} = city;
 
-  map.setView([cityLatitude, cityLongitude], zoom);
+  map.setView([cityLatitude, cityLongitude]);
 }
 
 function Map({city, points, className, style, activePlaceId}: MapProps): JSX.Element {
@@ -64,8 +63,11 @@ function Map({city, points, className, style, activePlaceId}: MapProps): JSX.Ele
   }, [map, city, points, activePlaceId]);
 
   return (
-    <section className={`${className} map`} ref={mapRef} style={style}>
-    </section>
+    <section
+      className={`${className} map`}
+      ref={mapRef}
+      style={style}
+    />
   );
 }
 

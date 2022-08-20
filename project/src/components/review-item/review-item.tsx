@@ -13,6 +13,7 @@ function formatDate(date: string): string {
 function ReviewItem({review}: ReviewItemProps): JSX.Element {
   const formattedDate = formatDate(review.date);
   const ratingInPercent = getPercentFromRating(review.rating);
+
   return (
     <li className="reviews__item">
       <div className="reviews__user user">

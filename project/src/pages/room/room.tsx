@@ -11,6 +11,8 @@ import {getCityByName, checkAuthStatus} from '../../helpers';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {useEffect} from 'react';
 import {getCommentsAction, getNearOffersAction, getOfferAction} from '../../store/api-actions';
+import {getOffer, getNearOffers, getComments} from '../../store/offer-data/selectors';
+import {getUserAuthorizationStatus} from '../../store/user-data/selector';
 import {useAppSelector} from '../../hooks/useAppSelector';
 import {useParams} from 'react-router-dom';
 
@@ -26,7 +28,10 @@ function Room(): JSX.Element {
     dispatch(getNearOffersAction(id));
   }, [dispatch, id]);
 
-  const {offer, nearOffers, comments, authorizationStatus} = useAppSelector((state) => state);
+  const offer = useAppSelector(getOffer);
+  const nearOffers = useAppSelector(getNearOffers);
+  const comments = useAppSelector(getComments);
+  const authorizationStatus = useAppSelector(getUserAuthorizationStatus);
 
   const nearPlaces = nearOffers.slice(0, NEAR_PLACE_SETTINGS.CARDS_TO_SHOW);
   const mapPlaces = nearPlaces.slice();
@@ -54,13 +59,24 @@ function Room(): JSX.Element {
               </section>
             </div>
           </div>
-          {offer && <Map activePlaceId={offer.id} city={currentCity} points={mapPlaces} className={'property__map'} style={{maxWidth: '1140px', margin: '0 auto 50px'}} />}
+          {offer && (
+            <Map
+              activePlaceId={offer.id}
+              city={currentCity}
+              points={mapPlaces}
+              className={'property__map'}
+              style={{maxWidth: '1140px', margin: '0 auto 50px'}}
+            />
+          )}
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <PlacesList places={nearPlaces} kind={NEAR_PLACE_SETTINGS.KIND} />
+              <PlacesList
+                places={nearPlaces}
+                kind={NEAR_PLACE_SETTINGS.KIND}
+              />
             </div>
           </section>
         </div>

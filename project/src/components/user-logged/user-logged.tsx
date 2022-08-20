@@ -1,3 +1,4 @@
+import {MouseEvent, memo} from 'react';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
@@ -5,14 +6,14 @@ import {logoutAction} from '../../store/api-actions';
 
 type UserLoggedProps = {
   wishlistCount: number,
-  name: string,
+  email: string,
   avatar: string,
 }
 
-function UserLogged({name, wishlistCount, avatar}: UserLoggedProps): JSX.Element {
+function UserLogged({email, wishlistCount, avatar}: UserLoggedProps): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const logoutClickHandle = (evt: React.MouseEvent) => {
+  const logoutClickHandle = (evt: MouseEvent) => {
     evt.preventDefault();
     dispatch(logoutAction());
   };
@@ -20,7 +21,7 @@ function UserLogged({name, wishlistCount, avatar}: UserLoggedProps): JSX.Element
   return (
     <>
       <li className="header__nav-item user">
-        <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Root}>
+        <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
           <div
             className="header__avatar-wrapper user__avatar-wrapper"
             style={{
@@ -28,7 +29,7 @@ function UserLogged({name, wishlistCount, avatar}: UserLoggedProps): JSX.Element
             }}
           >
           </div>
-          <span className="header__user-name user__name">{name}</span>
+          <span className="header__user-name user__name">{email}</span>
           <span className="header__favorite-count">{wishlistCount}</span>
         </Link>
       </li>
@@ -41,4 +42,4 @@ function UserLogged({name, wishlistCount, avatar}: UserLoggedProps): JSX.Element
   );
 }
 
-export default UserLogged;
+export default memo(UserLogged);

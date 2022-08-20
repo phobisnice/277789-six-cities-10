@@ -21,7 +21,10 @@ function FavoriteItem({places, city} : FavoriteItemProps): JSX.Element {
         </div>
       </div>
       <div className="favorites__places">
-        <PlacesList places={places} kind={Setting.KIND} />
+        <PlacesList
+          places={places}
+          kind={Setting.KIND}
+        />
       </div>
     </li>
   );

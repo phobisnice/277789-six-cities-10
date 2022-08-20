@@ -2,9 +2,12 @@ import {Offers, OffersByCity} from '../../types/offer';
 import FavoriteItem from '../../components/favorite-item/favorite-item';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {useEffect} from 'react';
-import {getWishlistItems} from '../../store/api-actions';
+import {getWishlistItemsAction} from '../../store/api-actions';
 import {useAppSelector} from '../../hooks/useAppSelector';
 import Header from '../../components/header/header';
+import EmptyFavorites from '../../components/empty-favorites/empty-favorites';
+import {Link} from 'react-router-dom';
+import {getWishlist} from '../../store/favorite-data/selectors';
 
 const getPlacesByCity = (places: Offers): OffersByCity[] => {
   const placesByCity: OffersByCity[] = [];
@@ -29,10 +32,10 @@ function Favorites(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getWishlistItems());
+    dispatch(getWishlistItemsAction());
   }, [dispatch]);
 
-  const {wishlist} = useAppSelector((state) => state);
+  const wishlist = useAppSelector(getWishlist);
 
   const cities = getPlacesByCity(wishlist);
 
@@ -48,30 +51,27 @@ function Favorites(): JSX.Element {
                 <h1 className="favorites__title">Saved listing</h1>
                 <ul className="favorites__list">
                   {
-                    cities.map((city) => <FavoriteItem places={city.offers} city={city.name} key={city.name} />)
+                    cities.map((city) => (
+                      <FavoriteItem
+                        places={city.offers}
+                        city={city.name}
+                        key={city.name}
+                      />
+                    ))
                   }
                 </ul>
               </section>
             </div>
           </main> :
-          <main className="page__main page__main--favorites page__main--favorites-empty">
-            <div className="page__favorites-container container">
-              <section className="favorites favorites--empty">
-                <h1 className="visually-hidden">Favorites (empty)</h1>
-                <div className="favorites__status-wrapper">
-                  <b className="favorites__status">Nothing yet saved.</b>
-                  <p className="favorites__status-description">Save properties to narrow down search or plan your future
-                    trips.
-                  </p>
-                </div>
-              </section>
-            </div>
-          </main>
+          <EmptyFavorites />
       }
       <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
+        <Link
+          className="footer__logo-link"
+          to="/"
+        >
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
-        </a>
+        </Link>
       </footer>
     </div>
   );
