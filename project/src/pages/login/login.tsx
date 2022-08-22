@@ -16,8 +16,10 @@ function Login() :JSX.Element {
     evt.preventDefault();
     const emailValue = emailRef.current !== null ? emailRef.current.value : '';
     const passwordValue = passwordRef.current !== null ? passwordRef.current.value : '';
+    const isEmailValid = checkValueByRegexp(emailValue, EMAIL_REGEXP, ValidateError.Email);
+    const isPasswordValid = checkValueByRegexp(passwordValue, PASSWORD_REGEXP, ValidateError.Password);
 
-    if (checkValueByRegexp(emailValue, EMAIL_REGEXP, ValidateError.Email) && checkValueByRegexp(passwordValue, PASSWORD_REGEXP, ValidateError.Password)) {
+    if (isEmailValid && isPasswordValid) {
       dispatch(loginAction({
         email: emailValue,
         password: passwordValue,
@@ -44,11 +46,23 @@ function Login() :JSX.Element {
             <form onSubmit={loginSubmitHandle} className="login__form form" action="#" method="post">
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input ref={emailRef} className="login__input form__input" type="email" name="email" placeholder="Email" required />
+                <input
+                  ref={emailRef}
+                  className="login__input form__input"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  required
+                />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password"
+                <input
+                  ref={passwordRef}
+                  className="login__input form__input"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
                   required
                 />
               </div>

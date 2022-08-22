@@ -1,3 +1,4 @@
+import {memo} from 'react';
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const';
 
@@ -13,4 +14,4 @@ function UserNotLogged(): JSX.Element {
   );
 }
 
-export default UserNotLogged;
+export default memo(UserNotLogged);

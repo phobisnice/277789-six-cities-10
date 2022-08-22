@@ -129,3 +129,20 @@ export const RATING_NAMES = [
   'badly',
   'terribly'
 ];
+
+export enum WishlistType {
+  List = 'place-card',
+  Offer = 'property',
+}
+
+export enum NameSpace {
+  Hotels = 'HOTELS',
+  Favorite = 'FAVORITE',
+  Offer = 'OFFER',
+  User = 'USER',
+}
+
+export enum WishlistStatus {
+  Add = '1',
+  Remove = '0',
+}

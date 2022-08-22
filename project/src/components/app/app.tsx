@@ -11,47 +11,60 @@ import {useAppSelector} from '../../hooks/useAppSelector';
 import HistoryRouter from '../history-route/history-route';
 import browserHistory from '../../browser-history';
 import {checkLoadingAuthStatus} from '../../helpers';
+import {getUserAuthorizationStatus} from '../../store/user-data/selector';
+import {getDataLoadingStatus} from '../../store/hotels-data/selectors';
+import {getOfferLoadingStatus} from '../../store/offer-data/selectors';
+import {getWishlistLoadingStatus} from '../../store/favorite-data/selectors';
 
 function App() : JSX.Element {
-  const {authorizationStatus, isDataLoading} = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getUserAuthorizationStatus);
+  const isDataLoading = useAppSelector(getDataLoadingStatus);
+  const isOfferLoading = useAppSelector(getOfferLoadingStatus);
+  const isWishlistLoading = useAppSelector(getWishlistLoadingStatus);
 
-  if (checkLoadingAuthStatus(authorizationStatus) || isDataLoading) {
-    return <Loader />;
-  }
+  const isLoading = isDataLoading || isOfferLoading || isWishlistLoading || checkLoadingAuthStatus(authorizationStatus);
 
   return (
-    <HistoryRouter history={browserHistory}>
-      <Routes>
-        <Route
-          path={AppRoute.Root}
-          element={<Main />}
-        />
-        <Route
-          path={AppRoute.Favorites}
-          element={
-            <PrivateRoute authorizationStatus={authorizationStatus} >
-              <Favorites />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Login}
-          element={
-            <PrivateRoute authorizationStatus={authorizationStatus} isLoginPage>
-              <Login />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path={AppRoute.Room}
-          element={<Room />}
-        />
-        <Route
-          path='*'
-          element={<NotFound />}
-        />
-      </Routes>
-    </HistoryRouter>
+    <>
+      <HistoryRouter history={browserHistory}>
+        <Routes>
+          <Route
+            path={AppRoute.Root}
+            element={<Main />}
+          />
+          <Route
+            path={AppRoute.Favorites}
+            element={
+              <PrivateRoute
+                authorizationStatus={authorizationStatus}
+              >
+                <Favorites />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.Login}
+            element={
+              <PrivateRoute
+                authorizationStatus={authorizationStatus}
+                isLoginPage
+              >
+                <Login />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={AppRoute.Room}
+            element={<Room />}
+          />
+          <Route
+            path='*'
+            element={<NotFound />}
+          />
+        </Routes>
+      </HistoryRouter>
+      {isLoading && <Loader />}
+    </>
   );
 }
 

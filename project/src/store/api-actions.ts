@@ -1,52 +1,41 @@
 import {AxiosInstance} from 'axios';
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {Offers} from '../types/offer';
+import {Offer, Offers} from '../types/offer';
 import {User} from '../types/user';
 import {Auth} from '../types/auth';
 import {AppDispatch, State} from '../types/state';
-import {APIRoute, AppRoute, AuthorizationStatus} from '../const';
+import {Reviews, ReviewInfoSent} from '../types/review';
+import {APIRoute, AppRoute, WishlistStatus} from '../const';
 import {
-  getOffer, loadComments, loadNearOffers,
-  loadOffers,
   redirectToRoute,
-  setAuthorizationStatus,
-  setDataLoadingStatus,
-  setUserInfo
 } from './action';
 import {dropToken, saveToken} from '../services/token';
 
-export const fetchOffersAction = createAsyncThunk<void, undefined, {
+export const fetchOffersAction = createAsyncThunk<Offers, undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
-  'data/fetchOffers',
+  'hotels/fetchOffers',
   async (_arg, {dispatch, extra: api}) => {
     const {data} = await api.get<Offers>(APIRoute.Hotels);
-    dispatch(setDataLoadingStatus(true));
-    dispatch(loadOffers(data));
-    dispatch(setDataLoadingStatus(false));
+    return data;
   }
 );
 
-export const checkAuthAction = createAsyncThunk<void, undefined, {
+export const checkAuthAction = createAsyncThunk<User, undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
   'user/checkAuth',
-  async (_arg, {dispatch, extra: api}) => {
-    try {
-      const {data: user} = await api.get(APIRoute.Login);
-      dispatch(setUserInfo(user));
-      dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
-    } catch {
-      dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
-    }
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get(APIRoute.Login);
+    return data;
   }
 );
 
-export const loginAction = createAsyncThunk<void, Auth, {
+export const loginAction = createAsyncThunk<User, Auth, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
@@ -55,9 +44,8 @@ export const loginAction = createAsyncThunk<void, Auth, {
   async ({email, password}, {dispatch, extra: api}) => {
     const {data: user} = await api.post<User>(APIRoute.Login, {email, password});
     saveToken(user.token);
-    dispatch(setAuthorizationStatus(AuthorizationStatus.Auth));
-    dispatch(setUserInfo(user));
     dispatch(redirectToRoute(AppRoute.Root));
+    return user;
   }
 );
 
@@ -67,75 +55,114 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance
 }>(
   'user/logout',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(setAuthorizationStatus(AuthorizationStatus.NoAuth));
-    dispatch(setUserInfo(null));
   }
 );
 
-export const getOfferAction = createAsyncThunk<void, string | undefined, {
+export const getOfferAction = createAsyncThunk<Offer, string | undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
-  'data/getOffer',
-  async (hotelId, {dispatch, extra: api, rejectWithValue}) => {
+  'offer/getOffer',
+  async (hotelId, {extra: api, rejectWithValue}) => {
     try {
       const offerRoute = `${APIRoute.Hotels}/${hotelId}`;
-      const {data: offer} = await api.get(offerRoute);
-
-      dispatch(setDataLoadingStatus(true));
-      dispatch(getOffer(offer));
-      dispatch(setDataLoadingStatus(false));
+      const {data} = await api.get(offerRoute);
+      return data;
     } catch {
       return rejectWithValue(null);
     }
   }
 );
 
-export const getCommentsAction = createAsyncThunk<void, string | undefined, {
+export const getCommentsAction = createAsyncThunk<Reviews, string | undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
-  'data/getOffer',
-  async (hotelId, {dispatch, extra: api}) => {
+  'offer/getComments',
+  async (hotelId, {extra: api}) => {
     const commentsRoute = `${APIRoute.Comments}/${hotelId}`;
-    const {data: comments} = await api.get(commentsRoute);
+    const {data} = await api.get(commentsRoute);
 
-    dispatch(setDataLoadingStatus(true));
-    dispatch(loadComments(comments));
-    dispatch(setDataLoadingStatus(false));
+    return data;
   }
 );
 
-export const getNearOffersAction = createAsyncThunk<void, string | undefined, {
+export const sendCommentAction = createAsyncThunk<Reviews, ReviewInfoSent, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
-  'data/getNearOffers',
+  'offer/sendComments',
+  async (commentInfo, {extra: api, rejectWithValue}) => {
+    const {hotelId, commentData, callbacks} = commentInfo;
+    const commentsRoute = `${APIRoute.Comments}/${hotelId}`;
+    try {
+      const {data} = await api.post(commentsRoute, commentData);
+      callbacks?.successCallback();
+      return data;
+    } catch {
+      callbacks?.errorCallback();
+      return rejectWithValue([]);
+    }
+  }
+);
+
+export const getNearOffersAction = createAsyncThunk<Offers, string | undefined, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'offer/getNearOffers',
   async (hotelId, {dispatch, extra: api}) => {
     const nearOffersRoute = `${APIRoute.Hotels}/${hotelId}/nearby`;
-    const {data: nearOffers} = await api.get(nearOffersRoute);
-    dispatch(loadNearOffers(nearOffers));
+    const {data} = await api.get(nearOffersRoute);
+
+    return data;
   }
 );
 
-export const getWishlistItems = createAsyncThunk<void, string | undefined, {
+export const getWishlistItemsAction = createAsyncThunk<Offers, string | undefined, {
   dispatch: AppDispatch,
   state: State,
   extra: AxiosInstance
 }>(
-  'data/getWishlistItems',
-  async (_arg, {dispatch, extra: api}) => {
-    try {
-      const {data: wishlist} = await api.get(APIRoute.Favorite);
-      dispatch(loadNearOffers(wishlist));
-    } catch {
-      dispatch(redirectToRoute(AppRoute.Root));
-    }
+  'favorite/getWishlistItems',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get(APIRoute.Favorite);
+
+    return data;
+  }
+);
+
+export const addToWishlistAction = createAsyncThunk<Offer, number, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'favorite/addToWishlist',
+  async (hotelId, {extra: api}) => {
+    const addAction = `${APIRoute.Favorite}/${hotelId}/${WishlistStatus.Add}`;
+    const {data} = await api.post(addAction);
+
+    return data;
+  }
+);
+
+export const removeFromWishlistAction = createAsyncThunk<Offer, number, {
+  dispatch: AppDispatch,
+  state: State,
+  extra: AxiosInstance
+}>(
+  'favorite/removeFromWishlist',
+  async (hotelId, {extra: api}) => {
+    const addAction = `${APIRoute.Favorite}/${hotelId}/${WishlistStatus.Remove}`;
+    const {data} = await api.post(addAction);
+
+    return data;
   }
 );

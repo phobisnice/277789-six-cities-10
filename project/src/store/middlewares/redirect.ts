@@ -1,10 +1,10 @@
 import browserHistory from '../../browser-history';
 import {Middleware} from 'redux';
-import {reducer} from '../reducer';
+import {rootReducer} from '../root-reducer';
 import {isRejectedWithValue} from '@reduxjs/toolkit';
 import {AppRoute} from '../../const';
 
-type Reducer = ReturnType<typeof reducer>;
+type Reducer = ReturnType<typeof rootReducer>;
 
 export const redirect: Middleware<unknown, Reducer> =
   (_store) =>
@@ -14,7 +14,7 @@ export const redirect: Middleware<unknown, Reducer> =
           browserHistory.push(action.paylod);
         }
 
-        if (action.type === 'data/getOffer/rejected' && isRejectedWithValue(action)) {
+        if (action.type === 'offer/getOffer/rejected' && isRejectedWithValue(action)) {
           browserHistory.push(AppRoute.NotFound);
         }
 

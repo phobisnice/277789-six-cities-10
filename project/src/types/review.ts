@@ -8,4 +8,16 @@ export type Review = {
   user: Host;
 };
 
+export type ReviewInfoSent = {
+  hotelId: string;
+  commentData: {
+    comment: string,
+    rating: string,
+  },
+  callbacks: {
+    successCallback: () => void,
+    errorCallback: () => void
+  }
+}
+
 export type Reviews = Review[];

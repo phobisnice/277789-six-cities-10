@@ -12,15 +12,24 @@ function NotFound() :JSX.Element {
             <h1 className="visually-hidden">Page not found</h1>
             <div className="favorites__status-wrapper">
               <b className="favorites__status">404 Not Found</b>
-              <Link to="/" className="favorites__status-description" style={{textDecoration: 'underline'}}>Back to Home Page</Link>
+              <Link
+                to="/"
+                className="favorites__status-description"
+                style={{textDecoration: 'underline'}}
+              >
+                Back to Home Page
+              </Link>
             </div>
           </section>
         </div>
       </main>
       <footer className="footer">:
-        <a className="footer__logo-link" href="main.html">
+        <Link
+          className="footer__logo-link"
+          to="/"
+        >
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
-        </a>
+        </Link>
       </footer>
     </div>
   );

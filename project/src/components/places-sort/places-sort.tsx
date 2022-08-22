@@ -1,5 +1,5 @@
 import {SORT_TYPES} from '../../const';
-import {useState} from 'react';
+import {useState, MouseEvent} from 'react';
 
 type PlacesSortProps = {
   onClickHandle: (sortType: typeof SORT_TYPES[number]) => void;
@@ -8,6 +8,11 @@ type PlacesSortProps = {
 
 function PlacesSort({onClickHandle, activeSortType}: PlacesSortProps): JSX.Element {
   const [isOpenSort, setIsOpenSort] = useState(false);
+
+  const sortClickHandle = (type: typeof SORT_TYPES[number]) => (evt: MouseEvent) => {
+    onClickHandle(type);
+    setIsOpenSort((isOpen) => !isOpen);
+  };
 
   return (
     <form className="places__sorting" action="/" method="get">
@@ -21,11 +26,10 @@ function PlacesSort({onClickHandle, activeSortType}: PlacesSortProps): JSX.Eleme
       <ul className={`places__options places__options--custom ${isOpenSort ? 'places__options--opened' : ''}`}>
         {
           SORT_TYPES.map((type) => (
-            <li className={`places__option ${activeSortType === type ? 'places__option--active' : ''}`} tabIndex={0}
-              onClick={() => {
-                onClickHandle(type);
-                setIsOpenSort(!isOpenSort);
-              }}
+            <li
+              className={`places__option ${activeSortType === type ? 'places__option--active' : ''}`}
+              tabIndex={0}
+              onClick={sortClickHandle(type)}
               key={type}
             >
               {type}
