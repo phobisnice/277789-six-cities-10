@@ -11,7 +11,7 @@ export const redirect: Middleware<unknown, Reducer> =
     (next) =>
       (action) => {
         if (action.type === 'data/redirectToRoute') {
-          browserHistory.push(action.paylod);
+          browserHistory.push(action.payload);
         }
 
         if (action.type === 'offer/getOffer/rejected' && isRejectedWithValue(action)) {

@@ -6,7 +6,7 @@ import PlacesSort from '../../components/places-sort/places-sort';
 import Header from '../../components/header/header';
 import {useAppSelector} from '../../hooks/useAppSelector';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
-import {changeCity, changeCurrentOffers, changeSortType} from '../../store/hotels-data/hotels-data';
+import {changeCity, changeSortType} from '../../store/hotels-data/hotels-data';
 import {getPlacesByCity, getCity, getSortType, getActivePlaceId} from '../../store/hotels-data/selectors';
 import {fetchOffersAction} from '../../store/api-actions';
 import {CITIES, SORT_TYPES} from '../../const';
@@ -24,20 +24,22 @@ function Main() :JSX.Element {
     dispatch(fetchOffersAction());
   }, [dispatch]);
 
-  const onCityClickHandle = (city: typeof CITIES[number]['name']) => {
-    dispatch(changeCity(city));
-    dispatch(changeCurrentOffers());
-  };
-
-  const onSortClickHandle = (sortType: typeof SORT_TYPES[number]) => {
-    dispatch(changeSortType(sortType));
-    dispatch(changeCurrentOffers());
-  };
-
   const currentCity = useAppSelector(getCity);
-  const placesByCity = useAppSelector(getPlacesByCity);
   const sortType = useAppSelector(getSortType);
   const activePlaceId = useAppSelector(getActivePlaceId);
+  const placesByCity = useAppSelector(getPlacesByCity);
+
+  const onCityClickHandle = (city: typeof CITIES[number]['name']) => {
+    if (currentCity.name !== city) {
+      dispatch(changeCity(city));
+    }
+  };
+
+  const onSortClickHandle = (type: typeof SORT_TYPES[number]) => {
+    if (sortType !== type) {
+      dispatch(changeSortType(type));
+    }
+  };
 
   return (
     <div className="page page--gray page--main">

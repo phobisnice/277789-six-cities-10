@@ -1,8 +1,5 @@
 import {Offers, OffersByCity} from '../../types/offer';
 import FavoriteItem from '../../components/favorite-item/favorite-item';
-import {useAppDispatch} from '../../hooks/useAppDispatch';
-import {useEffect} from 'react';
-import {getWishlistItemsAction} from '../../store/api-actions';
 import {useAppSelector} from '../../hooks/useAppSelector';
 import Header from '../../components/header/header';
 import EmptyFavorites from '../../components/empty-favorites/empty-favorites';
@@ -29,12 +26,6 @@ const getPlacesByCity = (places: Offers): OffersByCity[] => {
 };
 
 function Favorites(): JSX.Element {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getWishlistItemsAction());
-  }, [dispatch]);
-
   const wishlist = useAppSelector(getWishlist);
 
   const cities = getPlacesByCity(wishlist);

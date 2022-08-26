@@ -3,6 +3,7 @@ import {RATING_NAMES} from '../../const';
 import {sendCommentAction} from '../../store/api-actions';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
 import RatingItem from '../rating-item/rating-item';
+import {unwrapResult} from '@reduxjs/toolkit';
 
 type ReviewFormProps = {
   hotelId: string | undefined
@@ -46,12 +47,11 @@ function ReviewForm({hotelId}: ReviewFormProps): JSX.Element {
       commentData: {
         comment: formData.review,
         rating: formData.rating
-      },
-      callbacks: {
-        successCallback,
-        errorCallback
       }
-    }));
+    }))
+      .then(unwrapResult)
+      .then(successCallback)
+      .catch(errorCallback);
   };
 
   return (

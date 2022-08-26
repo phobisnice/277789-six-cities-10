@@ -31,14 +31,17 @@ export enum MapPin {
   ActiveImage = '/img/pin-active.svg',
 }
 
+export enum RATING {
+  StarPercent = 20,
+  MaxValue = 5,
+}
+
 export const DEFAULT_CITY = 'Paris';
 
 export const MAP_PIN_SIZE = {
   iconSize: [27, 39],
   iconAnchor: [13, 39],
 };
-
-export const RATING_STAR_PERCENT = 20;
 
 export const MAX_ROOM_IMAGES_COUNT = 6;
 
@@ -98,7 +101,7 @@ export const CITIES = [
     },
     name: 'Dusseldorf',
   },
-] as const;
+];
 
 export const SORT_TYPES = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'] as const;
 
@@ -118,9 +121,10 @@ export enum ValidateError {
   Password = 'The login must consist of at least one letter and a number',
 }
 
-export const EMAIL_REGEXP = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-
-export const PASSWORD_REGEXP = new RegExp(/([0-9].*[a-z])|([a-z].*[0-9])/);
+export const REGEXP_TYPES = {
+  email: new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+  password: new RegExp(/([0-9].*[a-z])|([a-z].*[0-9])/)
+} as const;
 
 export const RATING_NAMES = [
   'perfect',

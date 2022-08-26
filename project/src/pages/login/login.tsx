@@ -1,10 +1,10 @@
-import {Link} from 'react-router-dom';
 import {FormEvent, useRef} from 'react';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {checkValueByRegexp} from '../../helpers';
-import {AppRoute, EMAIL_REGEXP, PASSWORD_REGEXP, ValidateError} from '../../const';
+import {REGEXP_TYPES, ValidateError} from '../../const';
 import {loginAction} from '../../store/api-actions';
 import Logo from '../../components/logo/logo';
+import RandomCity from '../../components/random-city/random-city';
 
 function Login() :JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
@@ -16,8 +16,8 @@ function Login() :JSX.Element {
     evt.preventDefault();
     const emailValue = emailRef.current !== null ? emailRef.current.value : '';
     const passwordValue = passwordRef.current !== null ? passwordRef.current.value : '';
-    const isEmailValid = checkValueByRegexp(emailValue, EMAIL_REGEXP, ValidateError.Email);
-    const isPasswordValid = checkValueByRegexp(passwordValue, PASSWORD_REGEXP, ValidateError.Password);
+    const isEmailValid = checkValueByRegexp(emailValue, REGEXP_TYPES.email, ValidateError.Email);
+    const isPasswordValid = checkValueByRegexp(passwordValue, REGEXP_TYPES.password, ValidateError.Password);
 
     if (isEmailValid && isPasswordValid) {
       dispatch(loginAction({
@@ -69,13 +69,7 @@ function Login() :JSX.Element {
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
           </section>
-          <section className="locations locations--login locations--current">
-            <div className="locations__item">
-              <Link className="locations__item-link" to={AppRoute.Root}>
-                <span>Amsterdam</span>
-              </Link>
-            </div>
-          </section>
+          <RandomCity />
         </div>
       </main>
     </div>
