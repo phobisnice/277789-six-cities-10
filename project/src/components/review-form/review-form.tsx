@@ -1,5 +1,5 @@
 import {ChangeEvent, FormEvent, useEffect, useRef, useState} from 'react';
-import {RATING_NAMES} from '../../const';
+import {RATING_NAMES, ReviewText} from '../../const';
 import {sendCommentAction} from '../../store/api-actions';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
 import RatingItem from '../rating-item/rating-item';
@@ -21,7 +21,11 @@ function ReviewForm({hotelId}: ReviewFormProps): JSX.Element {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   useEffect(() => {
-    setIsButtonDisabled(!(formData.review.length >= 50 && formData.rating));
+    const isFormValid =
+      formData.review.length >= ReviewText.Minimum
+      && formData.review.length <= ReviewText.Maximum
+      && formData.rating;
+    setIsButtonDisabled(!isFormValid);
   }, [formData]);
 
   const reviewChangeHandle = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -40,6 +44,11 @@ function ReviewForm({hotelId}: ReviewFormProps): JSX.Element {
 
   const reviewSubmitHandle = (evt: FormEvent) => {
     evt.preventDefault();
+
+    if (isButtonDisabled) {
+      return;
+    }
+
     setIsButtonDisabled(true);
 
     dispatch(sendCommentAction({

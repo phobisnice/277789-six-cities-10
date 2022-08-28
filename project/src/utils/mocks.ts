@@ -1,8 +1,10 @@
-import {name, random, datatype, address, lorem, image, internet, date} from 'faker';
+import {address, datatype, date, image, internet, lorem, name, random} from 'faker';
 import {City, Location, Offer, OfferKind} from '../types/offer';
-import {CITIES} from '../const';
+import {AuthorizationStatus, CITIES, DEFAULT_CITY} from '../const';
 import {Host, User} from '../types/user';
 import {Review} from '../types/review';
+import {State} from '../types/state';
+import {getCityByName} from '../helpers';
 
 export const makeFakeOfferType = (array: Array<OfferKind>): OfferKind => array[datatype.number(array.length)];
 
@@ -34,10 +36,10 @@ export const makeFakeOffer = (): Offer => ({
   bedrooms: datatype.number({min: 1, max: 9}),
   city: makeFakeCity(),
   description: lorem.sentence(),
-  goods: new Array(datatype.number({min: 1, max: 10})).fill(random.word()),
+  goods: new Array(datatype.number({min: 1, max: 10})).fill('').map(() => random.word()),
   host: makeFakeHost(),
   id: datatype.number(10000),
-  images: new Array(datatype.number({min: 1, max: 10})).fill(image.city()),
+  images: new Array(datatype.number({min: 1, max: 10})).fill(image.imageUrl(260, 200, '', true)),
   isFavorite: datatype.boolean(),
   isPremium: datatype.boolean(),
   location: makeFakeLocation(),
@@ -55,4 +57,30 @@ export const makeFakeReview = (): Review => ({
   id: datatype.number(10000),
   rating: datatype.number({min: 1, max: 5}),
   user: makeFakeHost(),
+});
+
+const defaultCity = getCityByName(DEFAULT_CITY);
+
+export const makeFakeStore = (user?: User): State => ({
+  'HOTELS': {
+    city: defaultCity,
+    places: [],
+    sortType: 'Popular',
+    activePlaceId: 0,
+    isDataLoading: false,
+  },
+  'FAVORITE': {
+    wishlist: [],
+    isWishlistLoading: false,
+  },
+  'OFFER': {
+    offer: null,
+    comments: [],
+    nearOffers: [],
+    isOfferLoading: false,
+  },
+  'USER': {
+    authorizationStatus: user ? AuthorizationStatus.Auth : AuthorizationStatus.Unknown,
+    user: user ?? null,
+  }
 });

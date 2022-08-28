@@ -28,7 +28,7 @@ function Login() :JSX.Element {
   };
 
   return (
-    <div className="page page--gray page--login">
+    <div className="page page--gray page--login" data-testid="login-page">
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -45,24 +45,26 @@ function Login() :JSX.Element {
             <h1 className="login__title">Sign in</h1>
             <form onSubmit={loginSubmitHandle} className="login__form form" action="#" method="post">
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">E-mail</label>
+                <label className="visually-hidden" htmlFor="login-email">E-mail</label>
                 <input
                   ref={emailRef}
                   className="login__input form__input"
                   type="email"
                   name="email"
                   placeholder="Email"
+                  id="login-email"
                   required
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">Password</label>
+                <label className="visually-hidden" htmlFor="login-password">Password</label>
                 <input
                   ref={passwordRef}
                   className="login__input form__input"
                   type="password"
                   name="password"
                   placeholder="Password"
+                  id="login-password"
                   required
                 />
               </div>

@@ -12,13 +12,6 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export enum OfferKind {
-  Apartment = 'Apartment',
-  Room = 'Private Room',
-  House = 'House',
-  Hotel = 'Hotel',
-}
-
 export enum PreviewSize {
   NormalItemWidth = '260',
   NormalItemHeight = '200',
@@ -46,11 +39,6 @@ export const MAP_PIN_SIZE = {
 export const MAX_ROOM_IMAGES_COUNT = 6;
 
 export const MAX_REVIEWS_COUNT = 10;
-
-export const NEAR_PLACE_SETTINGS = {
-  CARDS_TO_SHOW: 3,
-  KIND: 'near-places',
-} as const;
 
 export const CITIES = [
   {
@@ -149,4 +137,20 @@ export enum NameSpace {
 export enum WishlistStatus {
   Add = '1',
   Remove = '0',
+}
+
+export enum PlaceCardType {
+  Favorite = 'favorites',
+  City = 'cities',
+  Near = 'near-places',
+}
+
+export enum PlaceCount {
+  City = 5,
+  Near = 3,
+}
+
+export enum ReviewText {
+  Minimum = 50,
+  Maximum = 300,
 }

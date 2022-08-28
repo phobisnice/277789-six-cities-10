@@ -1,7 +1,7 @@
 import {MouseEvent} from 'react';
 import {Offer} from '../../types/offer';
 import {Link} from 'react-router-dom';
-import {WishlistType} from '../../const';
+import {PreviewSize, WishlistType} from '../../const';
 import {getPercentFromRating} from '../../helpers';
 import WishlistButton from '../wishlist-button/wishlist-button';
 
@@ -9,14 +9,14 @@ type PlaceCardsProps = {
   info: Offer;
   kind: 'favorites' | 'near-places' | 'cities';
   onHoverHandle: (id: number) => void;
-  imageSizes: {
-    width: string;
-    height: string;
-  }
 }
 
-function PlaceCard({info, kind, imageSizes, onHoverHandle}: PlaceCardsProps): JSX.Element {
+function PlaceCard({info, kind, onHoverHandle}: PlaceCardsProps): JSX.Element {
   const ratingInPercent = getPercentFromRating(info.rating);
+  const imageSizes = {
+    width: kind !== 'favorites' ? PreviewSize.NormalItemWidth : PreviewSize.FavoriteItemWidth,
+    height: kind !== 'favorites' ? PreviewSize.NormalItemHeight : PreviewSize.FavoriteItemHeight,
+  };
 
   const placeCardHoverHandle = (id: number) => (evt: MouseEvent) => {
     onHoverHandle(id);
@@ -27,6 +27,7 @@ function PlaceCard({info, kind, imageSizes, onHoverHandle}: PlaceCardsProps): JS
       className={`${kind}__card place-card`}
       onMouseEnter={placeCardHoverHandle(info.id)}
       onMouseLeave={placeCardHoverHandle(0)}
+      data-testid="place-card"
     >
       {
         info.isPremium && (
@@ -65,6 +66,7 @@ function PlaceCard({info, kind, imageSizes, onHoverHandle}: PlaceCardsProps): JS
         <h2 className="place-card__name">
           <Link
             to={`/offer/${info.id}`}
+            data-testid="card-title-link"
           >
             {info.title}
           </Link>

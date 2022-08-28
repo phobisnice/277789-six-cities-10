@@ -5,6 +5,7 @@ import Header from '../../components/header/header';
 import EmptyFavorites from '../../components/empty-favorites/empty-favorites';
 import {Link} from 'react-router-dom';
 import {getWishlist} from '../../store/favorite-data/selectors';
+import {AppRoute} from '../../const';
 
 const getPlacesByCity = (places: Offers): OffersByCity[] => {
   const placesByCity: OffersByCity[] = [];
@@ -31,7 +32,7 @@ function Favorites(): JSX.Element {
   const cities = getPlacesByCity(wishlist);
 
   return (
-    <div className="page">
+    <div className="page" data-testid="favorites-page">
       <Header />
 
       {
@@ -59,7 +60,7 @@ function Favorites(): JSX.Element {
       <footer className="footer container">
         <Link
           className="footer__logo-link"
-          to="/"
+          to={AppRoute.Root}
         >
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
         </Link>

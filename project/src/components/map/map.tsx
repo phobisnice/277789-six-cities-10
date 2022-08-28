@@ -67,6 +67,7 @@ function Map({city, points, className, style, activePlaceId}: MapProps): JSX.Ele
       className={`${className} map`}
       ref={mapRef}
       style={style}
+      data-testid="map"
     />
   );
 }

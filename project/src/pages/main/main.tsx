@@ -9,13 +9,8 @@ import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {changeCity, changeSortType} from '../../store/hotels-data/hotels-data';
 import {getPlacesByCity, getCity, getSortType, getActivePlaceId} from '../../store/hotels-data/selectors';
 import {fetchOffersAction} from '../../store/api-actions';
-import {CITIES, SORT_TYPES} from '../../const';
+import {CITIES, SORT_TYPES, PlaceCardType, PlaceCount} from '../../const';
 import {useEffect} from 'react';
-
-const Setting = {
-  CARDS_TO_SHOW: 5,
-  KIND: 'cities',
-} as const;
 
 function Main() :JSX.Element {
   const dispatch = useAppDispatch();
@@ -42,7 +37,7 @@ function Main() :JSX.Element {
   };
 
   return (
-    <div className="page page--gray page--main">
+    <div className="page page--gray page--main" data-testid="main-page">
       <Header />
 
       <main className={`page__main page__main--index ${!placesByCity.length ? 'page__main--index-empty' : ''}`}>
@@ -66,8 +61,8 @@ function Main() :JSX.Element {
                   />
                   <div className="cities__places-list places__list tabs__content">
                     <PlacesList
-                      places={placesByCity.slice(0, Setting.CARDS_TO_SHOW)}
-                      kind={Setting.KIND}
+                      places={placesByCity.slice(0, PlaceCount.City)}
+                      kind={PlaceCardType.City}
                     />
                   </div>
                 </section>

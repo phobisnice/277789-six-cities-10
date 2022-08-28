@@ -6,7 +6,7 @@ import RoomDescription from '../../components/room-description/room-description'
 import Header from '../../components/header/header';
 import Map from '../../components/map/map';
 import {City} from '../../types/offer';
-import {DEFAULT_CITY, NEAR_PLACE_SETTINGS} from '../../const';
+import {DEFAULT_CITY, PlaceCount, PlaceCardType} from '../../const';
 import {getCityByName, checkAuthStatus} from '../../helpers';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {useEffect} from 'react';
@@ -33,7 +33,7 @@ function Room(): JSX.Element {
   const comments = useAppSelector(getComments);
   const authorizationStatus = useAppSelector(getUserAuthorizationStatus);
 
-  const nearPlaces = nearOffers.slice(0, NEAR_PLACE_SETTINGS.CARDS_TO_SHOW);
+  const nearPlaces = nearOffers.slice(0, PlaceCount.Near);
   const mapPlaces = nearPlaces.slice();
 
   if (offer) {
@@ -43,7 +43,7 @@ function Room(): JSX.Element {
   const currentCity: City = offer ? offer.city : defaultCity;
 
   return (
-    <div className="page">
+    <div className="page" data-testid="room-page">
       <Header />
 
       <main className="page__main page__main--property">
@@ -75,7 +75,7 @@ function Room(): JSX.Element {
             <div className="near-places__list places__list">
               <PlacesList
                 places={nearPlaces}
-                kind={NEAR_PLACE_SETTINGS.KIND}
+                kind={PlaceCardType.Near}
               />
             </div>
           </section>
