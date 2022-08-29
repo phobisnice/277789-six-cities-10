@@ -77,7 +77,7 @@ function Main() :JSX.Element {
               </div>
             </div>
             :
-            <EmptyPlacesList />
+            <EmptyPlacesList cityName={currentCity.name} />
         }
       </main>
     </div>

@@ -1,5 +1,5 @@
 import {address, datatype, date, image, internet, lorem, name, random} from 'faker';
-import {City, Location, Offer, OfferKind} from '../types/offer';
+import {City, Location, Offer, OfferKind, Offers} from '../types/offer';
 import {AuthorizationStatus, CITIES, DEFAULT_CITY} from '../const';
 import {Host, User} from '../types/user';
 import {Review} from '../types/review';
@@ -14,9 +14,9 @@ export const makeFakeLocation = (): Location => ({
   zoom: 9
 });
 
-export const makeFakeCity = (): City => ({
+export const makeFakeCity = (cityName?: typeof CITIES[number]['name']): City => ({
   location: makeFakeLocation(),
-  name: CITIES.map((city) => city.name)[datatype.number(CITIES.length - 1)]
+  name: cityName ?? CITIES.map((city) => city.name)[datatype.number(CITIES.length - 1)]
 });
 
 export const makeFakeHost = (): Host => ({
@@ -32,14 +32,18 @@ export const makeFakeUser = (email?: string, token?: string): User => ({
   email: email || internet.email(),
 });
 
-export const makeFakeOffer = (): Offer => ({
+export const makeFakeOffer = (cityName?: typeof CITIES[number]['name']): Offer => ({
   bedrooms: datatype.number({min: 1, max: 9}),
-  city: makeFakeCity(),
+  city: cityName ? makeFakeCity(cityName) : makeFakeCity(),
   description: lorem.sentence(),
-  goods: new Array(datatype.number({min: 1, max: 10})).fill('').map(() => random.word()),
+  goods: new Array(datatype.number({min: 1, max: 10}))
+    .fill('')
+    .map(() => random.word()),
   host: makeFakeHost(),
   id: datatype.number(10000),
-  images: new Array(datatype.number({min: 1, max: 10})).fill(image.imageUrl(260, 200, '', true)),
+  images: new Array(datatype.number({min: 1, max: 10}))
+    .fill('')
+    .map(() => image.imageUrl(260, 200, '', true)),
   isFavorite: datatype.boolean(),
   isPremium: datatype.boolean(),
   location: makeFakeLocation(),
@@ -61,10 +65,10 @@ export const makeFakeReview = (): Review => ({
 
 const defaultCity = getCityByName(DEFAULT_CITY);
 
-export const makeFakeStore = (user?: User): State => ({
+export const makeFakeStore = (user?: User, defaultPlaces?: Offers): State => ({
   'HOTELS': {
     city: defaultCity,
-    places: [],
+    places: defaultPlaces ?? [],
     sortType: 'Popular',
     activePlaceId: 0,
     isDataLoading: false,
