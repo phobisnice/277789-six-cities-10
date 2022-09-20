@@ -1,8 +1,15 @@
-import {AuthorizationStatus, CITIES, RATING_STAR_PERCENT, SORT_TYPES, ValidateError} from './const';
+import {AuthorizationStatus, CITIES, RATING, SORT_TYPES, ValidateError} from './const';
 import {Offers} from './types/offer';
 import {toast} from 'react-toastify';
 
-export const getPercentFromRating = (rating: number): string => rating ? `${(Math.round(rating) * RATING_STAR_PERCENT).toString()}%` : '0%';
+export const getPercentFromRating = (rating?: number): string => {
+  if (!rating || rating < 0) {
+    return '0%';
+  }
+
+  const ratingNumber = rating > RATING.MaxValue ? RATING.MaxValue : rating;
+  return `${(Math.round(ratingNumber) * RATING.StarPercent).toString()}%`;
+};
 
 export const getCityByName = (name: string): typeof CITIES[number] => CITIES.filter((city) => city.name === name)[0];
 
@@ -37,3 +44,5 @@ export const checkValueByRegexp = (value: string, regexp: RegExp, messageError: 
 export const checkLoadingAuthStatus = (authorizationStatus: AuthorizationStatus): boolean => authorizationStatus === AuthorizationStatus.Unknown;
 
 export const checkAuthStatus = (authorizationStatus: AuthorizationStatus): boolean => authorizationStatus === AuthorizationStatus.Auth;
+
+export const getRandomValueFromArray = <T>(array: T[]): T => array[Math.floor(Math.random() * array.length)];

@@ -1,9 +1,10 @@
 import {Link} from 'react-router-dom';
 import Header from '../../components/header/header';
+import {AppRoute} from '../../const';
 
 function NotFound() :JSX.Element {
   return (
-    <div className="page page--favorites-empty">
+    <div className="page page--favorites-empty" data-testid="not-found-page">
       <Header />
 
       <main className="page__main page__main--favorites page__main--favorites-empty">
@@ -13,7 +14,7 @@ function NotFound() :JSX.Element {
             <div className="favorites__status-wrapper">
               <b className="favorites__status">404 Not Found</b>
               <Link
-                to="/"
+                to={AppRoute.Root}
                 className="favorites__status-description"
                 style={{textDecoration: 'underline'}}
               >
@@ -26,7 +27,7 @@ function NotFound() :JSX.Element {
       <footer className="footer">:
         <Link
           className="footer__logo-link"
-          to="/"
+          to={AppRoute.Root}
         >
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
         </Link>

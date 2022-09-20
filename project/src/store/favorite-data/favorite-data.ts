@@ -25,7 +25,10 @@ export const favoriteData = createSlice({
         state.isWishlistLoading = false;
       })
       .addCase(addToWishlistAction.fulfilled, (state, action) => {
-        state.wishlist.push(action.payload);
+        const isItemInWishlist = state.wishlist.filter((item) => item.id === action.payload.id).length;
+        if (!isItemInWishlist) {
+          state.wishlist.push(action.payload);
+        }
       })
       .addCase(removeFromWishlistAction.fulfilled, (state, action) => {
         state.wishlist = state.wishlist.filter((item) => item.id !== action.payload.id);

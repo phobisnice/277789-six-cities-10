@@ -1,10 +1,10 @@
-import {Link} from 'react-router-dom';
 import {FormEvent, useRef} from 'react';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {checkValueByRegexp} from '../../helpers';
-import {AppRoute, EMAIL_REGEXP, PASSWORD_REGEXP, ValidateError} from '../../const';
+import {REGEXP_TYPES, ValidateError} from '../../const';
 import {loginAction} from '../../store/api-actions';
 import Logo from '../../components/logo/logo';
+import RandomCity from '../../components/random-city/random-city';
 
 function Login() :JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
@@ -16,8 +16,8 @@ function Login() :JSX.Element {
     evt.preventDefault();
     const emailValue = emailRef.current !== null ? emailRef.current.value : '';
     const passwordValue = passwordRef.current !== null ? passwordRef.current.value : '';
-    const isEmailValid = checkValueByRegexp(emailValue, EMAIL_REGEXP, ValidateError.Email);
-    const isPasswordValid = checkValueByRegexp(passwordValue, PASSWORD_REGEXP, ValidateError.Password);
+    const isEmailValid = checkValueByRegexp(emailValue, REGEXP_TYPES.email, ValidateError.Email);
+    const isPasswordValid = checkValueByRegexp(passwordValue, REGEXP_TYPES.password, ValidateError.Password);
 
     if (isEmailValid && isPasswordValid) {
       dispatch(loginAction({
@@ -28,7 +28,7 @@ function Login() :JSX.Element {
   };
 
   return (
-    <div className="page page--gray page--login">
+    <div className="page page--gray page--login" data-testid="login-page">
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -45,37 +45,33 @@ function Login() :JSX.Element {
             <h1 className="login__title">Sign in</h1>
             <form onSubmit={loginSubmitHandle} className="login__form form" action="#" method="post">
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">E-mail</label>
+                <label className="visually-hidden" htmlFor="login-email">E-mail</label>
                 <input
                   ref={emailRef}
                   className="login__input form__input"
                   type="email"
                   name="email"
                   placeholder="Email"
+                  id="login-email"
                   required
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
-                <label className="visually-hidden">Password</label>
+                <label className="visually-hidden" htmlFor="login-password">Password</label>
                 <input
                   ref={passwordRef}
                   className="login__input form__input"
                   type="password"
                   name="password"
                   placeholder="Password"
+                  id="login-password"
                   required
                 />
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
           </section>
-          <section className="locations locations--login locations--current">
-            <div className="locations__item">
-              <Link className="locations__item-link" to={AppRoute.Root}>
-                <span>Amsterdam</span>
-              </Link>
-            </div>
-          </section>
+          <RandomCity />
         </div>
       </main>
     </div>

@@ -8,8 +8,6 @@ import NotFound from '../../pages/not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import Loader from '../loader/loader';
 import {useAppSelector} from '../../hooks/useAppSelector';
-import HistoryRouter from '../history-route/history-route';
-import browserHistory from '../../browser-history';
 import {checkLoadingAuthStatus} from '../../helpers';
 import {getUserAuthorizationStatus} from '../../store/user-data/selector';
 import {getDataLoadingStatus} from '../../store/hotels-data/selectors';
@@ -26,43 +24,41 @@ function App() : JSX.Element {
 
   return (
     <>
-      <HistoryRouter history={browserHistory}>
-        <Routes>
-          <Route
-            path={AppRoute.Root}
-            element={<Main />}
-          />
-          <Route
-            path={AppRoute.Favorites}
-            element={
-              <PrivateRoute
-                authorizationStatus={authorizationStatus}
-              >
-                <Favorites />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={AppRoute.Login}
-            element={
-              <PrivateRoute
-                authorizationStatus={authorizationStatus}
-                isLoginPage
-              >
-                <Login />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={AppRoute.Room}
-            element={<Room />}
-          />
-          <Route
-            path='*'
-            element={<NotFound />}
-          />
-        </Routes>
-      </HistoryRouter>
+      <Routes>
+        <Route
+          path={AppRoute.Root}
+          element={<Main />}
+        />
+        <Route
+          path={AppRoute.Favorites}
+          element={
+            <PrivateRoute
+              authorizationStatus={authorizationStatus}
+            >
+              <Favorites />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.Login}
+          element={
+            <PrivateRoute
+              authorizationStatus={authorizationStatus}
+              isLoginPage
+            >
+              <Login />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.Room}
+          element={<Room />}
+        />
+        <Route
+          path='*'
+          element={<NotFound />}
+        />
+      </Routes>
       {isLoading && <Loader />}
     </>
   );

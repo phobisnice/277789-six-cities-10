@@ -6,9 +6,7 @@ import {Auth} from '../types/auth';
 import {AppDispatch, State} from '../types/state';
 import {Reviews, ReviewInfoSent} from '../types/review';
 import {APIRoute, AppRoute, WishlistStatus} from '../const';
-import {
-  redirectToRoute,
-} from './action';
+import {redirectToRoute} from './action';
 import {dropToken, saveToken} from '../services/token';
 
 export const fetchOffersAction = createAsyncThunk<Offers, undefined, {
@@ -17,7 +15,7 @@ export const fetchOffersAction = createAsyncThunk<Offers, undefined, {
   extra: AxiosInstance
 }>(
   'hotels/fetchOffers',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, {extra: api}) => {
     const {data} = await api.get<Offers>(APIRoute.Hotels);
     return data;
   }
@@ -67,7 +65,7 @@ export const getOfferAction = createAsyncThunk<Offer, string | undefined, {
   extra: AxiosInstance
 }>(
   'offer/getOffer',
-  async (hotelId, {extra: api, rejectWithValue}) => {
+  async (hotelId, {dispatch, extra: api, rejectWithValue}) => {
     try {
       const offerRoute = `${APIRoute.Hotels}/${hotelId}`;
       const {data} = await api.get(offerRoute);
@@ -99,14 +97,12 @@ export const sendCommentAction = createAsyncThunk<Reviews, ReviewInfoSent, {
 }>(
   'offer/sendComments',
   async (commentInfo, {extra: api, rejectWithValue}) => {
-    const {hotelId, commentData, callbacks} = commentInfo;
+    const {hotelId, commentData} = commentInfo;
     const commentsRoute = `${APIRoute.Comments}/${hotelId}`;
     try {
       const {data} = await api.post(commentsRoute, commentData);
-      callbacks?.successCallback();
       return data;
     } catch {
-      callbacks?.errorCallback();
       return rejectWithValue([]);
     }
   }
@@ -118,7 +114,7 @@ export const getNearOffersAction = createAsyncThunk<Offers, string | undefined, 
   extra: AxiosInstance
 }>(
   'offer/getNearOffers',
-  async (hotelId, {dispatch, extra: api}) => {
+  async (hotelId, { extra: api}) => {
     const nearOffersRoute = `${APIRoute.Hotels}/${hotelId}/nearby`;
     const {data} = await api.get(nearOffersRoute);
 
@@ -132,10 +128,13 @@ export const getWishlistItemsAction = createAsyncThunk<Offers, string | undefine
   extra: AxiosInstance
 }>(
   'favorite/getWishlistItems',
-  async (_arg, {extra: api}) => {
-    const {data} = await api.get(APIRoute.Favorite);
-
-    return data;
+  async (_arg, {extra: api, rejectWithValue}) => {
+    try {
+      const {data} = await api.get(APIRoute.Favorite);
+      return data;
+    } catch {
+      return rejectWithValue([]);
+    }
   }
 );
 
@@ -147,7 +146,7 @@ export const addToWishlistAction = createAsyncThunk<Offer, number, {
   'favorite/addToWishlist',
   async (hotelId, {extra: api}) => {
     const addAction = `${APIRoute.Favorite}/${hotelId}/${WishlistStatus.Add}`;
-    const {data} = await api.post(addAction);
+    const {data} = await api.post<Offer>(addAction);
 
     return data;
   }
@@ -161,7 +160,7 @@ export const removeFromWishlistAction = createAsyncThunk<Offer, number, {
   'favorite/removeFromWishlist',
   async (hotelId, {extra: api}) => {
     const addAction = `${APIRoute.Favorite}/${hotelId}/${WishlistStatus.Remove}`;
-    const {data} = await api.post(addAction);
+    const {data} = await api.post<Offer>(addAction);
 
     return data;
   }

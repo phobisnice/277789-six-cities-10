@@ -24,7 +24,6 @@ export type FavoriteData = {
 export type HotelsData = {
   city: City;
   places: Offers;
-  placesByCity: Offers;
   sortType: typeof SORT_TYPES[number];
   activePlaceId: number;
   isDataLoading: boolean;

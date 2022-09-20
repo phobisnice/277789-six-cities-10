@@ -6,6 +6,7 @@ import {useNavigate} from 'react-router-dom';
 import {AppRoute} from '../../const';
 import {useAppDispatch} from '../../hooks/useAppDispatch';
 import {addToWishlistAction, removeFromWishlistAction} from '../../store/api-actions';
+import {updatePlaceWishlistStatus} from '../../store/hotels-data/hotels-data';
 
 type WishlistButtonProps = {
   isFavorite: boolean,
@@ -29,8 +30,15 @@ function WishlistButton({isFavorite, type, offerId}: WishlistButtonProps): JSX.E
     evt.preventDefault();
 
     if (isUserAuthorization) {
+      const changedWishlistStatusInfo = {
+        status: !favoriteStatus,
+        id: offerId,
+      };
+
       setFavoriteStatus((prevState) => !prevState);
-      dispatch(wishlistAction);
+      dispatch(wishlistAction).then(() => {
+        dispatch(updatePlaceWishlistStatus(changedWishlistStatusInfo));
+      });
     } else {
       navigate(AppRoute.Login);
     }

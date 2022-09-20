@@ -5,7 +5,7 @@ type HeaderWrapperProps = PropsWithChildren;
 
 function HeaderWrapper({children}: HeaderWrapperProps): JSX.Element {
   return (
-    <header className="header">
+    <header className="header" data-testid="header-wrapper">
       <div className="container">
         <div className="header__wrapper">
           <div className="header__left">

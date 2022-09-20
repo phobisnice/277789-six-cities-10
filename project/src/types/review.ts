@@ -14,10 +14,6 @@ export type ReviewInfoSent = {
     comment: string,
     rating: string,
   },
-  callbacks: {
-    successCallback: () => void,
-    errorCallback: () => void
-  }
 }
 
 export type Reviews = Review[];
